@@ -1,15 +1,16 @@
 body {
-    background: url("https://mota.ru/upload/resize/1600/1200/upload/wallpapers/2017/04/05/18/45/52229/149140692958e51051204ca5.14553080-b28.jpg") no-repeat;
-    background-size: cover;
+    background-color: rgba(217, 217, 217, 0.61);
 }
 
 .App {
     padding: 30px;
     display: flex;
 }
+
 .titleTodoList {
     font-size: 22px;
 }
+
 .App > div {
     margin-right: 50px;
 }
@@ -79,6 +80,7 @@ body {
     background-color: transparent;
     color: black;
 }
+
 .checkbox {
     margin-right: 15px;
 }
@@ -94,7 +96,7 @@ body {
 }
 
 .btnDel:hover {
-    border: 1px solid rgba(0,0,0,0.6);
+    border: 1px solid rgba(0, 0, 0, 0.6);
 }
 
 .tasks li {

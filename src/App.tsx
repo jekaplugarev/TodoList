@@ -42,9 +42,11 @@ function App() {
         tasks[todoListID] = tasks[todoListID].filter(task => task.id !== id)
         setTasks({...tasks})
     }
+
     function changeFilter(filter: FilterType, todoListID: string) {
         setTodoLists(todoLists.map(tl => tl.id === todoListID ? {...tl, filter} : tl))
     }
+
     function addTask(title: string, todoListID: string) {
         const newTask: TaskType = {
             id: v1(),
@@ -55,11 +57,13 @@ function App() {
         copyTasks[todoListID] = [newTask, ...tasks[todoListID]]
         setTasks(copyTasks)
     }
+
     function changeTaskStatus(taskId: string, checked: boolean, todoListID: string) { //Принимаем checked из значения состояния чекбокса
         const copyTasks = {...tasks}
         copyTasks[todoListID] = tasks[todoListID].map(task => task.id === taskId ? {...task, isDone: checked} : task)
         setTasks(copyTasks)
     }
+
     function getFilteredTasks(tl: TodoListType) {
         if (tl.filter === 'completed') {
             return tasks[tl.id].filter(task => task.isDone)
@@ -68,11 +72,23 @@ function App() {
         }
         return tasks[tl.id]
     }
+
     function removeTodoList(todoListID: string) {
         setTodoLists((todoLists.filter(tl => tl.id !== todoListID)))
         const copyTasks = {...tasks}
         delete copyTasks[todoListID]
         setTasks(copyTasks)
+    }
+
+    function addTodoList(title: string) {
+        const newTodoListID = v1()
+        const newTodoList: TodoListType = {
+            id: newTodoListID,
+            title,
+            filter: 'all'
+        }
+        setTodoLists([...todoLists, newTodoList])
+        setTasks({...tasks, [newTodoListID]: []})
     }
 
     const todoListComponents = todoLists.map(tl => {
