@@ -13,6 +13,8 @@ type PropsType = {
     addTask: (title: string, todoListID: string) => void
     changeTaskStatus: (taskId: string, checked: boolean, todoListID: string) => void
     removeTodoList: (todoListID: string) => void
+    changeTaskTitle: (taskId: string, title: string, todoListID: string) => void
+    changeTodoListTitle: (title: string, todoListID: string) => void
 }
 
 export function Todolist(props: PropsType) {
@@ -26,21 +28,25 @@ export function Todolist(props: PropsType) {
         props.changeFilter('completed', props.todoListID)
     }
     const removeTodoList = () => props.removeTodoList(props.todoListID)
+    const addTask = (title: string) => props.addTask(title, props.todoListID) //callback функция из App по созданию таски
+    const changeTodoListTitle = (title: string) => props.changeTodoListTitle(title, props.todoListID)
+
     const tasksElements = props.tasks.map(task => { //Для каждого объекта массива tasks
             const removeTask = () => props.removeTask(task.id, props.todoListID)
             const changeTaskStatus = (event: ChangeEvent<HTMLInputElement>) => {
                 props.changeTaskStatus(task.id, event.currentTarget.checked, props.todoListID)
             }
+            const changeTaskTitle = (title: string) => props.changeTaskTitle(task.id, title, props.todoListID)
 
             return (
-                <li key={task.id} style={{listStyleType: 'none'}}>
+                <li key={task.id} className={task.isDone ? 'isDone' : ''}>
                     <input
                         type="checkbox"
                         checked={task.isDone}
                         className="checkbox"
                         onChange={changeTaskStatus} //На событие onChange через пропсы передаем функцию с промапленой task.id и значением состояния чекбокса
                     />
-                    <EditableSpan title={task.title} isDone={task.isDone}/>
+                    <EditableSpan title={task.title} changeTitle={changeTaskTitle}/>
                     <button onClick={removeTask} className="btnDel">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
                              className="bi bi-x" viewBox="0 0 16 16">
@@ -51,13 +57,14 @@ export function Todolist(props: PropsType) {
                 </li>)
         }
     )
-    const addTask = (title: string) => props.addTask(title, props.todoListID) //callback функция из App по созданию таски
-
 
     return (
         <div className="container">
             <div className="header">
-                <h3 className="titleTodoList">{props.titleTodoList}</h3>
+                <h3
+                    className="titleTodoList">
+                    <EditableSpan title={props.titleTodoList} changeTitle={changeTodoListTitle}/>
+                </h3>
                 <button onClick={removeTodoList} className="btnDel">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
                          className="bi bi-x" viewBox="0 0 16 16">

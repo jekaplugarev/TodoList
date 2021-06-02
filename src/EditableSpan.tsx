@@ -1,21 +1,37 @@
-import React, {useState} from 'react';
+import React, {ChangeEvent, useState, KeyboardEvent} from 'react';
 
 type EditableSpanType = {
     title: string
-    isDone: boolean
+    changeTitle: (title: string) => void
 }
 
 function EditableSpan(props: EditableSpanType) {
     const [editMode, setEditMode] = useState<boolean>(false)
+    const [inputValue, setInputValue] = useState<string>(props.title)
     const onEditMode = () => setEditMode(true)
-    const offEditMode = () => setEditMode(false)
-
+    const offEditMode = () => {
+        setEditMode(false)
+        props.changeTitle(inputValue)
+    }
+    const onChangeTitle = (event: ChangeEvent<HTMLInputElement>) => {
+        setInputValue(event.currentTarget.value)
+    }
+    const onEnterOfEditMode = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            offEditMode()
+        }
+    }
 
     return (
         editMode
-            ? <input onBlur={offEditMode} autoFocus={true} className="editMode"/>
+            ? <input
+                onBlur={offEditMode}
+                autoFocus={true}
+                value={inputValue}
+                onChange={onChangeTitle}
+                onKeyPress={onEnterOfEditMode}
+                className="editMode"/>
             : <span
-                className={props.isDone ? 'isDone' : ''}
                 onDoubleClick={onEditMode}>
                 {props.title}
         </span>

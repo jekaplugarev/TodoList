@@ -3,9 +3,10 @@ body {
 }
 
 .todoLists {
-    padding: 30px;
     display: flex;
+    flex-wrap: wrap;
 }
+
 .addItem {
     margin-left: 20px;
 }
@@ -19,7 +20,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    margin: 20px 0 20px 30px;
+    margin: 30px 0 0 30px;
     background-color: white;
     width: fit-content;
 }
@@ -29,7 +30,7 @@ body {
 }
 
 .todoLists > div {
-    margin-right: 50px;
+    margin: 30px;
 }
 
 .isDone {
