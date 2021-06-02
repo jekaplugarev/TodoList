@@ -1,17 +1,34 @@
 body {
-    background-color: rgba(217, 217, 217, 0.61);
+    background-color: white;
 }
 
-.App {
+.todoLists {
     padding: 30px;
     display: flex;
+}
+.addItem {
+    margin-left: 20px;
+}
+
+.titleInput {
+    font-size: 22px;
+    text-transform: uppercase;
+}
+
+.addTodoList {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 20px 0 20px 30px;
+    background-color: white;
+    width: fit-content;
 }
 
 .titleTodoList {
     font-size: 22px;
 }
 
-.App > div {
+.todoLists > div {
     margin-right: 50px;
 }
 
@@ -29,7 +46,7 @@ body {
 }
 
 .wrapper {
-    height: 40px;
+    display: flex;
 }
 
 .error {
@@ -137,4 +154,8 @@ body {
     flex-direction: column;
     align-items: start;
     justify-content: center;
+}
+
+.editMode {
+    outline: none;
 }
