@@ -32,7 +32,8 @@ function EditableSpan(props: EditableSpanType) {
                 onKeyPress={onEnterOfEditMode}
                 className="editMode"/>
             : <span
-                onDoubleClick={onEditMode}>
+                onDoubleClick={onEditMode}
+                className="editableSpan">
                 {props.title}
         </span>
     )
