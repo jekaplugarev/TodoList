@@ -1,7 +1,9 @@
 import React, {ChangeEvent} from 'react';
 import {FilterType, TaskType} from './App';
-import AddItemForm from './AddItemForm';
-import EditableSpan from './EditableSpan';
+import {Button, Checkbox, IconButton} from '@material-ui/core'
+import {EditableSpan} from './EditableSpan';
+import {AddItemForm} from './AddItemForm';
+import {HighlightOff} from '@material-ui/icons';
 
 type PropsType = {
     todoListID: string
@@ -40,20 +42,29 @@ export function Todolist(props: PropsType) {
 
             return (
                 <li key={task.id} className={task.isDone ? 'isDone' : ''}>
-                    <input
-                        type="checkbox"
+                    <Checkbox
+                        color={'primary'}
                         checked={task.isDone}
                         className="checkbox"
-                        onChange={changeTaskStatus} //На событие onChange через пропсы передаем функцию с промапленой task.id и значением состояния чекбокса
+                        onChange={changeTaskStatus}
                     />
+                    {/*<input*/}
+                    {/*    type="checkbox"*/}
+                    {/*    checked={task.isDone}*/}
+                    {/*    className="checkbox"*/}
+                    {/*    onChange={changeTaskStatus} //На событие onChange через пропсы передаем функцию с промапленой task.id и значением состояния чекбокса*/}
+                    {/*/>*/}
                     <EditableSpan title={task.title} changeTitle={changeTaskTitle}/>
-                    <button onClick={removeTask} className="btnDel">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
-                             className="bi bi-x" viewBox="0 0 16 16">
-                            <path
-                                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                        </svg>
-                    </button>
+                    <IconButton onClick={removeTask} size={'medium'}>
+                        <HighlightOff fontSize={'default'}/>
+                    </IconButton>
+                    {/*<button onClick={removeTask} className="btnDel">*/}
+                    {/*    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"*/}
+                    {/*         className="bi bi-x" viewBox="0 0 16 16">*/}
+                    {/*        <path*/}
+                    {/*            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>*/}
+                    {/*    </svg>*/}
+                    {/*</button>*/}
                 </li>)
         }
     )
@@ -65,31 +76,45 @@ export function Todolist(props: PropsType) {
                     className="titleTodoList">
                     <EditableSpan title={props.titleTodoList} changeTitle={changeTodoListTitle}/>
                 </h3>
-                <button onClick={removeTodoList} className="btnDel">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
-                         className="bi bi-x" viewBox="0 0 16 16">
-                        <path
-                            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                    </svg>
-                </button>
+                <IconButton onClick={removeTodoList} size={'medium'}>
+                    <HighlightOff fontSize={'default'}/>
+                </IconButton>
+                {/*<button className="btnDel">*/}
+                {/*    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"*/}
+                {/*         className="bi bi-x" viewBox="0 0 16 16">*/}
+                {/*        <path*/}
+                {/*            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>*/}
+                {/*    </svg>*/}
+                {/*</button>*/}
             </div>
             <AddItemForm addItem={addTask}/>
             <ul className="tasks">
                 {tasksElements}
             </ul>
             <div className="filter">
-                <button
+                <Button
+                    variant={props.filter === 'all' ? 'contained' : 'outlined'}
+                    color={'primary'}
                     onClick={onClickSetAllFilter}
-                    className={props.filter === 'all' ? 'activeFilter' : 'btnFilter'}>All
-                </button>
-                <button
+                    style={{marginRight: '10px'}}
+                    // className={props.filter === 'all' ? 'activeFilter' : 'btnFilter'}
+                >All
+                </Button>
+                <Button
+                    variant={props.filter === 'active' ? 'contained' : 'outlined'}
+                    color={'primary'}
                     onClick={onClickSetActiveFilter}
-                    className={props.filter === 'active' ? 'activeFilter' : 'btnFilter'}>Active
-                </button>
-                <button
+                    style={{marginRight: '10px'}}
+                    // className={props.filter === 'active' ? 'activeFilter' : 'btnFilter'}
+                >Active
+                </Button>
+                <Button
+                    variant={props.filter === 'completed' ? 'contained' : 'outlined'}
+                    color={'primary'}
                     onClick={onClickSetCompletedFilter}
-                    className={props.filter === 'completed' ? 'activeFilter' : 'btnFilter'}>Completed
-                </button>
+                    // className={props.filter === 'completed' ? 'activeFilter' : 'btnFilter'}
+                >Completed
+                </Button>
             </div>
         </div>
     )
