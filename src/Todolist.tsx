@@ -72,8 +72,7 @@ export function Todolist(props: PropsType) {
     return (
         <div className="container">
             <div className="header">
-                <h3
-                    className="titleTodoList">
+                <h3 className="titleTodoList">
                     <EditableSpan title={props.titleTodoList} changeTitle={changeTodoListTitle}/>
                 </h3>
                 <IconButton onClick={removeTodoList} size={'medium'}>
@@ -87,7 +86,7 @@ export function Todolist(props: PropsType) {
                 {/*    </svg>*/}
                 {/*</button>*/}
             </div>
-            <AddItemForm addItem={addTask}/>
+            <AddItemForm addItem={addTask} label={'Task...'}/>
             <ul className="tasks">
                 {tasksElements}
             </ul>

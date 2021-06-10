@@ -2,37 +2,41 @@ body {
     background-color: white;
 }
 
-.todoLists {
-    /*display: flex;*/
-    /*flex-wrap: wrap;*/
-}
-
-.addItem {
-    /*font-size: 22px;*/
-}
-
 .addTodoList {
-    /*display: flex;*/
-    /*align-items: center;*/
-    /*justify-content: center;*/
-    /*background-color: white;*/
-    /*margin-top: 30px;*/
-    /*margin-left: 30px;*/
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 30px 0;
 }
 
 .titleInput {
-    /*font-size: 22px;*/
-    /*text-transform: uppercase;*/
-    /*margin-bottom: 15px;*/
+    font-size: 22px;
+    text-transform: uppercase;
+    margin-bottom: 15px;
 }
 
 .todoLists {
     display: flex;
-    /*justify-content: space-evenly;*/
+    column-gap: 5%;
+    flex-wrap: wrap;
+    margin: auto;
+    flex: 0 0 33.33%;
 }
 
-.todoLists > div {
-    /*margin: 30px;*/
+@media (max-width: 1200px) {
+    .todoLists {
+        justify-content: space-between;
+        flex: 0 0 50%;
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 640px) {
+    .todoLists {
+        flex-direction: column;
+        align-items: center;
+    }
 }
 
 .isDone > .editableSpan {
@@ -62,6 +66,8 @@ body {
 }
 
 .container {
+    max-width: 1200px;
+    margin: 0 auto;
     /*width: 40%;*/
     /*max-width: 300px;*/
     /*border: 3px solid dodgerblue;*/
@@ -70,6 +76,18 @@ body {
     /*border-radius: 30px;*/
     /*align-self: flex-start;*/
     /*background-color: white;*/
+}
+
+@media (max-width: 1200px) {
+    .container {
+        max-width: 700px;
+    }
+}
+
+@media (max-width: 900px) {
+    .container {
+        max-width: 640px;
+    }
 }
 
 .inputTask {
@@ -107,19 +125,19 @@ body {
     /*margin-right: 15px;*/
 }
 
-/*.btnDel {*/
-/*    margin-left: 20px;*/
-/*    line-height: 0;*/
-/*    padding: 0;*/
-/*    border: 1px solid black;*/
-/*    border-radius: 50%;*/
-/*    background-color: transparent;*/
-/*    color: black;*/
-/*}*/
+.btnDel {
+    /*margin-left: 20px;*/
+    /*line-height: 0;*/
+    /*padding: 0;*/
+    /*border: 1px solid black;*/
+    /*border-radius: 50%;*/
+    /*background-color: transparent;*/
+    /*color: black;*/
+}
 
-/*.btnDel:hover {*/
-/*    border: 1px solid rgba(0, 0, 0, 0.6);*/
-/*}*/
+.btnDel:hover {
+    /*border: 1px solid rgba(0, 0, 0, 0.6);*/
+}
 
 .tasks li {
     font-size: 18px;
@@ -136,6 +154,21 @@ body {
 .filter {
     display: flex;
     justify-content: space-between;
+}
+
+@media (max-width: 1200px) {
+    .filter {
+        flex-direction: column;
+    }
+
+    .filter Button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .filter Button:last-child {
+        margin-bottom: 0;
+    }
 }
 
 .btnFilter {
@@ -168,11 +201,12 @@ body {
 }
 
 .editableSpan {
+    word-break: break-all;
     margin-right: 7px;
     margin-left: 5px;
 }
 
 .titleTodoList {
-    font-size: 22px;
-    margin-right: 4px;
+    /*font-size: 22px;*/
+    /*margin-right: 4px;*/
 }

@@ -3,7 +3,7 @@ import './App.css'
 import {Todolist} from './Todolist'
 import {v1} from 'uuid';
 import {AddItemForm} from './AddItemForm';
-import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from '@material-ui/core';
+import {AppBar, Button, Grid, IconButton, Paper, Toolbar, Typography} from '@material-ui/core';
 import {Menu} from '@material-ui/icons';
 
 export type FilterType = 'all' | 'completed' | 'active'
@@ -108,8 +108,8 @@ export function App() {
         const taskForTodoList = getFilteredTasks(tl)
 
         return (
-            <Grid item key={tl.id} style={{width: '350px'}}>
-                <Paper elevation={5} style={{margin: '20px', padding: '20px', borderRadius: '10px'}}>
+            <Grid item key={tl.id} style={{width: '30%', minWidth: '300px'}}>
+                <Paper elevation={5} style={{margin: '0 20px 20px 20px', padding: '20px', borderRadius: '10px'}}>
                     <Todolist
                         todoListID={tl.id}
                         filter={tl.filter}
@@ -145,20 +145,22 @@ export function App() {
                     </Button>
                 </Toolbar>
             </AppBar>
-            <Container fixed>
-                <Grid container style={{margin: '20px 0 20px 20px'}} justify={'center'}>
-                    <div className="addTodoList">
-                        <div className="addItem">
-                            <AddItemForm addItem={addTodoList}/>
-                        </div>
+            <div className="container">
+                {/*<Container maxWidth={'sm'}>*/}
+                {/*<Grid container justify={'center'}>*/}
+                <div className="addTodoList">
+                    <div className="addItem">
+                        <AddItemForm addItem={addTodoList} label={'Add TodoList...'}/>
                     </div>
-                </Grid>
-                <Grid container spacing={5} justify={'center'}>
-                    <div className="todoLists">
-                        {todoListComponents}
-                    </div>
-                </Grid>
-            </Container>
+                </div>
+                {/*</Grid>*/}
+                {/*<Grid container justify={'center'} xs={12}>*/}
+                <div className="todoLists">
+                    {todoListComponents}
+                </div>
+                {/*</Grid>*/}
+                {/*</Container>*/}
+            </div>
         </div>
     )
 }

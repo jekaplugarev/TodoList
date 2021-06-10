@@ -31,6 +31,7 @@ export function EditableSpan(props: EditableSpanType) {
                 value={inputValue}
                 onChange={onChangeTitle}
                 onKeyPress={onEnterOfEditMode}
+                style={{flexWrap: 'wrap', width: '100%'}}
             />
             // <input
             //     onBlur={offEditMode}
@@ -41,7 +42,8 @@ export function EditableSpan(props: EditableSpanType) {
             //     className="editMode"/>
             : <span
                 onDoubleClick={onEditMode}
-                className="editableSpan">
+                className="editableSpan"
+            >
                 {props.title}
         </span>
     )

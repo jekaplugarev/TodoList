@@ -3,6 +3,7 @@ import {TextField, Button} from '@material-ui/core';
 
 type AddItemFormType = {
     addItem: (title: string) => void
+    label: string
 }
 
 export function AddItemForm(props: AddItemFormType) {
@@ -36,8 +37,9 @@ export function AddItemForm(props: AddItemFormType) {
                 <TextField
                     variant={'outlined'}
                     size={'small'}
-                    label={'Title'}
+                    label={props.label}
                     error={error}
+                    // helperText={error && 'Title is required !'}
                     value={inputValue}
                     onChange={onChangeTitle}
                     onKeyPress={onKeyPressAddItem}
