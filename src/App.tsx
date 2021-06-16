@@ -45,15 +45,6 @@ export function App() {
         tasks[todoListID] = tasks[todoListID].filter(task => task.id !== id)
         setTasks({...tasks})
     }
-
-    function changeFilter(filter: FilterType, todoListID: string) {
-        setTodoLists(todoLists.map(tl => tl.id === todoListID ? {...tl, filter} : tl))
-    }
-
-    function changeTodoListTitle(title: string, todoListID: string) {
-        setTodoLists(todoLists.map(tl => tl.id === todoListID ? {...tl, title} : tl))
-    }
-
     function addTask(title: string, todoListID: string) {
         const newTask: TaskType = {
             id: v1(),
@@ -64,35 +55,29 @@ export function App() {
         copyTasks[todoListID] = [newTask, ...tasks[todoListID]]
         setTasks(copyTasks)
     }
-
     function changeTaskStatus(taskId: string, checked: boolean, todoListID: string) { //Принимаем checked из значения состояния чекбокса
         const copyTasks = {...tasks}
         copyTasks[todoListID] = tasks[todoListID].map(task => task.id === taskId ? {...task, isDone: checked} : task)
         setTasks(copyTasks)
     }
-
     function changeTaskTitle(taskId: string, title: string, todoListID: string) {
         const copyTasks = {...tasks}
         copyTasks[todoListID] = tasks[todoListID].map(task => task.id === taskId ? {...task, title} : task)
         setTasks(copyTasks)
     }
 
-    function getFilteredTasks(tl: TodoListType) {
-        if (tl.filter === 'completed') {
-            return tasks[tl.id].filter(task => task.isDone)
-        } else if (tl.filter === 'active') {
-            return tasks[tl.id].filter(task => !task.isDone)
-        }
-        return tasks[tl.id]
+    function changeTodoListFilter(filter: FilterType, todoListID: string) {
+        setTodoLists(todoLists.map(tl => tl.id === todoListID ? {...tl, filter} : tl))
     }
-
+    function changeTodoListTitle(title: string, todoListID: string) {
+        setTodoLists(todoLists.map(tl => tl.id === todoListID ? {...tl, title} : tl))
+    }
     function removeTodoList(todoListID: string) {
-        setTodoLists((todoLists.filter(tl => tl.id !== todoListID)))
+        setTodoLists(todoLists.filter(tl => tl.id !== todoListID))
         const copyTasks = {...tasks}
         delete copyTasks[todoListID]
         setTasks(copyTasks)
     }
-
     function addTodoList(title: string) {
         const newTodoListID = v1()
         const newTodoList: TodoListType = {
@@ -102,6 +87,15 @@ export function App() {
         }
         setTodoLists([...todoLists, newTodoList])
         setTasks({...tasks, [newTodoListID]: []})
+    }
+
+    function getFilteredTasks(tl: TodoListType) {
+        if (tl.filter === 'completed') {
+            return tasks[tl.id].filter(task => task.isDone)
+        } else if (tl.filter === 'active') {
+            return tasks[tl.id].filter(task => !task.isDone)
+        }
+        return tasks[tl.id]
     }
 
     const todoListComponents = todoLists.map(tl => {
@@ -117,7 +111,7 @@ export function App() {
                         tasks={taskForTodoList}
                         addTask={addTask}
                         removeTask={removeTask}
-                        changeFilter={changeFilter}
+                        changeFilter={changeTodoListFilter}
                         changeTaskStatus={changeTaskStatus}
                         removeTodoList={removeTodoList}
                         changeTaskTitle={changeTaskTitle}
