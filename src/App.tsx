@@ -17,7 +17,7 @@ export type TodoListType = {
     title: string
     filter: FilterType
 }
-export type TaskStateType = {
+export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
 
@@ -28,7 +28,7 @@ export function App() {
         {id: todoListID_1, title: 'What to learn', filter: 'all'},
         {id: todoListID_2, title: 'What to buy', filter: 'all'},
     ])
-    const [tasks, setTasks] = useState<TaskStateType>({
+    const [tasks, setTasks] = useState<TasksStateType>({
         [todoListID_1]: [
             {id: v1(), title: 'HTML&CSS', isDone: false},
             {id: v1(), title: 'JS', isDone: false},
@@ -45,6 +45,7 @@ export function App() {
         tasks[todoListID] = tasks[todoListID].filter(task => task.id !== id)
         setTasks({...tasks})
     }
+
     function addTask(title: string, todoListID: string) {
         const newTask: TaskType = {
             id: v1(),
@@ -55,11 +56,13 @@ export function App() {
         copyTasks[todoListID] = [newTask, ...tasks[todoListID]]
         setTasks(copyTasks)
     }
+
     function changeTaskStatus(taskId: string, checked: boolean, todoListID: string) { //Принимаем checked из значения состояния чекбокса
         const copyTasks = {...tasks}
         copyTasks[todoListID] = tasks[todoListID].map(task => task.id === taskId ? {...task, isDone: checked} : task)
         setTasks(copyTasks)
     }
+
     function changeTaskTitle(taskId: string, title: string, todoListID: string) {
         const copyTasks = {...tasks}
         copyTasks[todoListID] = tasks[todoListID].map(task => task.id === taskId ? {...task, title} : task)
@@ -72,12 +75,14 @@ export function App() {
     function changeTodoListTitle(title: string, todoListID: string) {
         setTodoLists(todoLists.map(tl => tl.id === todoListID ? {...tl, title} : tl))
     }
+
     function removeTodoList(todoListID: string) {
         setTodoLists(todoLists.filter(tl => tl.id !== todoListID))
         const copyTasks = {...tasks}
         delete copyTasks[todoListID]
         setTasks(copyTasks)
     }
+
     function addTodoList(title: string) {
         const newTodoListID = v1()
         const newTodoList: TodoListType = {
@@ -140,20 +145,14 @@ export function App() {
                 </Toolbar>
             </AppBar>
             <div className="container">
-                {/*<Container maxWidth={'sm'}>*/}
-                {/*<Grid container justify={'center'}>*/}
                 <div className="addTodoList">
                     <div className="addItem">
                         <AddItemForm addItem={addTodoList} label={'Add TodoList...'}/>
                     </div>
                 </div>
-                {/*</Grid>*/}
-                {/*<Grid container justify={'center'} xs={12}>*/}
                 <div className="todoLists">
                     {todoListComponents}
                 </div>
-                {/*</Grid>*/}
-                {/*</Container>*/}
             </div>
         </div>
     )
