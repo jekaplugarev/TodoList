@@ -4,6 +4,9 @@ import {Button, Checkbox, IconButton} from '@material-ui/core'
 import {EditableSpan} from './EditableSpan';
 import {AddItemForm} from './AddItemForm';
 import {HighlightOff} from '@material-ui/icons';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppRootStateType} from './state/store';
+import {TodoListType} from './AppWithRedux';
 
 type PropsType = {
     todoListID: string
@@ -20,6 +23,16 @@ type PropsType = {
 }
 
 export function Todolist(props: PropsType) {
+//     const todo = useSelector<AppRootStateType,TodoListType>(
+//         state => state.todoLists.filter(
+//             t => t.id === props.todoListID
+//         )[0]
+//     )
+//     const task = useSelector<AppRootStateType,Array<TaskType>>(
+//         state => state.tasks[props.todoListID]
+// )
+//     const dispatch = useDispatch()
+
     const onClickSetAllFilter = () => {
         props.changeFilter('all', props.todoListID)
     }
@@ -30,10 +43,10 @@ export function Todolist(props: PropsType) {
         props.changeFilter('completed', props.todoListID)
     }
     const removeTodoList = () => props.removeTodoList(props.todoListID)
-    const addTask = (title: string) => props.addTask(title, props.todoListID) //callback функция из App по созданию таски
+    const addTask = (title: string) => props.addTask(title, props.todoListID)
     const changeTodoListTitle = (title: string) => props.changeTodoListTitle(title, props.todoListID)
 
-    const tasksElements = props.tasks.map(task => { //Для каждого объекта массива tasks
+    const tasksElements = props.tasks.map(task => {
             const removeTask = () => props.removeTask(task.id, props.todoListID)
             const changeTaskStatus = (event: ChangeEvent<HTMLInputElement>) => {
                 props.changeTaskStatus(task.id, event.currentTarget.checked, props.todoListID)
@@ -48,23 +61,10 @@ export function Todolist(props: PropsType) {
                         className="checkbox"
                         onChange={changeTaskStatus}
                     />
-                    {/*<input*/}
-                    {/*    type="checkbox"*/}
-                    {/*    checked={task.isDone}*/}
-                    {/*    className="checkbox"*/}
-                    {/*    onChange={changeTaskStatus} //На событие onChange через пропсы передаем функцию с промапленой task.id и значением состояния чекбокса*/}
-                    {/*/>*/}
                     <EditableSpan title={task.title} changeTitle={changeTaskTitle}/>
                     <IconButton onClick={removeTask} size={'medium'}>
                         <HighlightOff fontSize={'default'}/>
                     </IconButton>
-                    {/*<button onClick={removeTask} className="btnDel">*/}
-                    {/*    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"*/}
-                    {/*         className="bi bi-x" viewBox="0 0 16 16">*/}
-                    {/*        <path*/}
-                    {/*            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>*/}
-                    {/*    </svg>*/}
-                    {/*</button>*/}
                 </li>)
         }
     )
@@ -78,13 +78,6 @@ export function Todolist(props: PropsType) {
                 <IconButton onClick={removeTodoList} size={'medium'}>
                     <HighlightOff fontSize={'default'}/>
                 </IconButton>
-                {/*<button className="btnDel">*/}
-                {/*    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"*/}
-                {/*         className="bi bi-x" viewBox="0 0 16 16">*/}
-                {/*        <path*/}
-                {/*            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>*/}
-                {/*    </svg>*/}
-                {/*</button>*/}
             </div>
             <AddItemForm addItem={addTask} label={'Task...'}/>
             <ul className="tasks">
@@ -96,7 +89,6 @@ export function Todolist(props: PropsType) {
                     color={'primary'}
                     onClick={onClickSetAllFilter}
                     style={{marginRight: '10px'}}
-                    // className={props.filter === 'all' ? 'activeFilter' : 'btnFilter'}
                 >All
                 </Button>
                 <Button
@@ -104,14 +96,12 @@ export function Todolist(props: PropsType) {
                     color={'primary'}
                     onClick={onClickSetActiveFilter}
                     style={{marginRight: '10px'}}
-                    // className={props.filter === 'active' ? 'activeFilter' : 'btnFilter'}
                 >Active
                 </Button>
                 <Button
                     variant={props.filter === 'completed' ? 'contained' : 'outlined'}
                     color={'primary'}
                     onClick={onClickSetCompletedFilter}
-                    // className={props.filter === 'completed' ? 'activeFilter' : 'btnFilter'}
                 >Completed
                 </Button>
             </div>
