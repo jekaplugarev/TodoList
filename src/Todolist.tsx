@@ -23,7 +23,7 @@ type PropsType = {
 }
 
 export function Todolist(props: PropsType) {
-//     const todo = useSelector<AppRootStateType,TodoListType>(
+//     const todoList = useSelector<AppRootStateType,TodoListType>(
 //         state => state.todoLists.filter(
 //             t => t.id === props.todoListID
 //         )[0]
