@@ -6,7 +6,8 @@ type AddItemFormType = {
     label: string
 }
 
-export function AddItemForm(props: AddItemFormType) {
+export const AddItemForm = React.memo((props: AddItemFormType) => {
+
     const [inputValue, setInputValue] = useState<string>('')
     const [error, setError] = useState<boolean>(false)
 
@@ -69,4 +70,4 @@ export function AddItemForm(props: AddItemFormType) {
             {errorMessage}
         </div>
     )
-}
+})
