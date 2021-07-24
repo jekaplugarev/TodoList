@@ -11,7 +11,7 @@ export const AddItemForm = React.memo((props: AddItemFormType) => {
     const [inputValue, setInputValue] = useState<string>('')
     const [error, setError] = useState<boolean>(false)
 
-    const errorMessage = error ? <div style={{color: 'red', marginTop: '5px'}}>Title is required !</div> : null //Если есть ошибка то выволим сообщение иначе ничего
+    const errorMessage = error ? <div style={{color: 'red', marginTop: '5px'}}>Title is required !</div> : null //Если есть ошибка то выводим сообщение иначе ничего
 
     const onKeyPressAddItem = (event: KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
@@ -46,15 +46,6 @@ export const AddItemForm = React.memo((props: AddItemFormType) => {
                     onKeyPress={onKeyPressAddItem}
                     style={{marginRight: '10px'}}
                 />
-                {/*<input*/}
-                {/*    value={inputValue}*/}
-                {/*    onChange={onChangeTitle}*/}
-                {/*    onKeyPress={onKeyPressAddItem}*/}
-                {/*    className={error ? 'error' : 'input'}*/}
-                {/*/>*/}
-                {/*<IconButton onClick={onClickAddItem} size={'small'} color={'primary'}>*/}
-                {/*    <AddBox fontSize={'default'}/>*/}
-                {/*</IconButton>*/}
                 <Button
                     onClick={onClickAddItem}
                     color={'primary'}
