@@ -1,50 +1,29 @@
-import React, {ChangeEvent, useState, KeyboardEvent} from 'react';
-import { TextField } from '@material-ui/core';
+import React, {ChangeEvent, useState} from 'react';
+import {TextField} from '@material-ui/core';
 
-type EditableSpanType = {
-    title: string
-    changeTitle: (title: string) => void
+type EditableSpanPropsType = {
+    value: string
+    onChange: (newValue: string) => void
 }
 
-export const EditableSpan = React.memo((props: EditableSpanType) => {
-    const [editMode, setEditMode] = useState<boolean>(false)
-    const [inputValue, setInputValue] = useState<string>(props.title)
-    const onEditMode = () => setEditMode(true)
-    const offEditMode = () => {
-        setEditMode(false)
-        props.changeTitle(inputValue)
+export const EditableSpan = React.memo(function (props: EditableSpanPropsType) {
+    console.log("EditableSpan called");
+    let [editMode, setEditMode] = useState(false);
+    let [title, setTitle] = useState(props.value);
+
+    const activateEditMode = () => {
+        setEditMode(true);
+        setTitle(props.value);
     }
-    const onChangeTitle = (event: ChangeEvent<HTMLInputElement>) => {
-        setInputValue(event.currentTarget.value)
+    const activateViewMode = () => {
+        setEditMode(false);
+        props.onChange(title);
     }
-    const onEnterOfEditMode = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') {
-            offEditMode()
-        }
+    const changeTitle = (e: ChangeEvent<HTMLInputElement>) => {
+        setTitle(e.currentTarget.value)
     }
 
-    return (
-        editMode
-            ? <TextField
-                onBlur={offEditMode}
-                autoFocus={true}
-                value={inputValue}
-                onChange={onChangeTitle}
-                onKeyPress={onEnterOfEditMode}
-                style={{flexWrap: 'wrap', width: '100%'}}
-            />
-            // <input
-            //     onBlur={offEditMode}
-            //     autoFocus={true}
-            //     value={inputValue}
-            //     onChange={onChangeTitle}
-            //     onKeyPress={onEnterOfEditMode}
-            //     className="editMode"/>
-            : <span
-                onDoubleClick={onEditMode}
-                className="editableSpan"
-            >
-                {props.title}
-        </span>
-    )
-})
+    return editMode
+        ?    <TextField value={title} onChange={changeTitle} autoFocus onBlur={activateViewMode} />
+        : <span onDoubleClick={activateEditMode}>{props.value}</span>
+});

@@ -1,64 +1,50 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-import {TextField, Button} from '@material-ui/core';
+import {Box, Button, FormControl, IconButton, TextField} from '@material-ui/core';
+import {AddBox} from '@material-ui/icons';
 
-type AddItemFormType = {
+type AddItemFormPropsType = {
     addItem: (title: string) => void
-    label: string
 }
 
-export const AddItemForm = React.memo((props: AddItemFormType) => {
+export const AddItemForm = React.memo(function(props: AddItemFormPropsType) {
+    console.log("AddItemForm called")
 
-    const [inputValue, setInputValue] = useState<string>('')
-    const [error, setError] = useState<boolean>(false)
+    let [title, setTitle] = useState("")
+    let [error, setError] = useState<string | null>(null)
 
-    const errorMessage = error ? <div style={{color: 'red', marginTop: '5px'}}>Title is required !</div> : null //Если есть ошибка то выводим сообщение иначе ничего
-
-    const onKeyPressAddItem = (event: KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === 'Enter') {
-            onClickAddItem()
-        }
-    }
-    const onClickAddItem = () => {
-        const validatedInputValue = inputValue.trim() //Убирает пробелы по бокам
-        if (validatedInputValue) { //Если строка не пустая
-            props.addItem(validatedInputValue)
+    const addItem = () => {
+        if (title.trim() !== "") {
+            props.addItem(title);
+            setTitle("");
         } else {
-            setError(true)
+            setError("Title is required");
         }
-        setInputValue('') //Чистит инпут после добавления таски
-    }
-    const onChangeTitle = (event: ChangeEvent<HTMLInputElement>) => {
-        setInputValue(event.currentTarget.value)
-        setError(false) //Если печатает то убирает ошибку
     }
 
-    return (
-        <div className="wrapper">
-            <div className="inputTask">
-                <TextField
-                    variant={'outlined'}
-                    size={'small'}
-                    label={props.label}
-                    error={error}
-                    // helperText={error && 'Title is required !'}
-                    value={inputValue}
-                    onChange={onChangeTitle}
-                    onKeyPress={onKeyPressAddItem}
-                    style={{marginRight: '10px'}}
-                />
-                <Button
-                    onClick={onClickAddItem}
-                    color={'primary'}
-                    variant={'contained'}
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                         className="bi bi-plus" viewBox="0 0 16 16">
-                        <path
-                            d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                    </svg>
-                </Button>
-            </div>
-            {errorMessage}
-        </div>
-    )
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setTitle(e.currentTarget.value)
+    }
+
+    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (error !== null) {
+            setError(null);
+        }
+        if (e.charCode === 13) {
+            addItem();
+        }
+    }
+
+    return <div>
+        <TextField variant="outlined"
+                   error={!!error}
+                   value={title}
+                   onChange={onChangeHandler}
+                   onKeyPress={onKeyPressHandler}
+                   label="Title"
+                   helperText={error}
+        />
+        <IconButton color="primary" onClick={addItem}>
+            <AddBox />
+        </IconButton>
+    </div>
 })
