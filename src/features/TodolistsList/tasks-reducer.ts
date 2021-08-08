@@ -3,8 +3,8 @@ import {TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelTyp
 import {Dispatch} from 'redux'
 import {AppRootStateType} from '../../app/store'
 import {setAppStatusAC, ActionAppType, setAppErrorAC} from '../../app/app-reducer'
-import { AxiosError } from 'axios'
-import {handleServerAppError, handleServerNetworkError } from '../../utils/error-utils'
+import {AxiosError} from 'axios'
+import {handleServerAppError, handleServerNetworkError} from '../../utils/error-utils'
 
 const initialState: TasksStateType = {}
 
@@ -73,23 +73,22 @@ export const removeTaskTC = (taskId: string, todolistId: string) => (dispatch: D
             handleServerNetworkError(dispatch, err.message)
         })
 }
-export const addTaskTC = (title: string, todolistId: string) => (dispatch: Dispatch<ActionsType>) => {
-    dispatch(setAppStatusAC('loading'))
-    todolistsAPI.createTask(todolistId, title)
-        .then(res => {
-            if (res.data.resultCode === 0) {
-                const task = res.data.data.item
-                const action = addTaskAC(task)
-                dispatch(action)
-                dispatch(setAppStatusAC('succeeded'))
-            } else {
-                handleServerAppError<{ item: TaskType }>(dispatch, res.data)
-            }
-        })
-        .catch((err: AxiosError) => {
-            dispatch(setAppErrorAC(err.message))
-            dispatch(setAppStatusAC('failed'))
-        })
+export const addTaskTC = (title: string, todolistId: string) => async (dispatch: Dispatch<ActionsType>) => {
+    try {
+        dispatch(setAppStatusAC('loading'))
+        let res = await todolistsAPI.createTask(todolistId, title)
+        if (res.data.resultCode === 0) {
+            const task = res.data.data.item
+            const action = addTaskAC(task)
+            dispatch(action)
+            dispatch(setAppStatusAC('succeeded'))
+        } else {
+            handleServerAppError<{ item: TaskType }>(dispatch, res.data)
+        }
+    } catch (err) {
+        dispatch(setAppErrorAC(err.message))
+        dispatch(setAppStatusAC('failed'))
+    }
 }
 export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelType, todolistId: string) =>
     (dispatch: Dispatch<ActionsType>, getState: () => AppRootStateType) => {
