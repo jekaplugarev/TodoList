@@ -60,14 +60,17 @@ export const Todolist = React.memo(function ({demo = false, ...props}: PropsType
         tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.Completed)
     }
 
-    return <div>
-        <h3><EditableSpan value={props.todolist.title} onChange={changeTodolistTitle}/>
+    return <div className="container">
+        <div className="header">
+            <h3 className="titleTodoList">
+                <EditableSpan value={props.todolist.title} onChange={changeTodolistTitle}/>
+            </h3>
             <IconButton onClick={removeTodolist} disabled={props.todolist.entityStatus === 'loading'}>
                 <Delete/>
             </IconButton>
-        </h3>
-        <AddItemForm addItem={addTask} disabled={props.todolist.entityStatus === 'loading'}/>
-        <div>
+        </div>
+        <AddItemForm addItem={addTask} label={'Add Task...'} disabled={props.todolist.entityStatus === 'loading'}/>
+        <div className="tasks">
             {
                 tasksForTodolist.map(t => <Task key={t.id} task={t} todolistId={props.todolist.id}
                                                 removeTask={props.removeTask}
@@ -76,7 +79,7 @@ export const Todolist = React.memo(function ({demo = false, ...props}: PropsType
                 />)
             }
         </div>
-        <div style={{paddingTop: '10px'}}>
+        <div className="filter">
             <Button variant={props.todolist.filter === 'all' ? 'outlined' : 'text'}
                     onClick={onAllClickHandler}
                     color={'default'}

@@ -16,7 +16,7 @@ import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import {AddItemForm} from '../../components/AddItemForm/AddItemForm'
 import {Todolist} from './Todolist/Todolist'
-import { Redirect } from 'react-router-dom'
+import {Redirect} from 'react-router-dom'
 
 type PropsType = {
     demo?: boolean
@@ -81,32 +81,37 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
     }
 
     return <>
-        <Grid container style={{padding: '20px'}}>
-            <AddItemForm addItem={addTodolist}/>
-        </Grid>
-        <Grid container spacing={3}>
-            {
-                todolists.map(tl => {
-                    let allTodolistTasks = tasks[tl.id]
+        <div className="container">
+            <div className="addTodoList">
+                <div className="addItem">
+                    <AddItemForm addItem={addTodolist} label={'Add TodoList...'}/>
+                </div>
+            </div>
+            <div className="todoLists">
+                {
+                    todolists.map(tl => {
+                        let allTodolistTasks = tasks[tl.id]
 
-                    return <Grid item key={tl.id}>
-                        <Paper style={{padding: '10px'}}>
-                            <Todolist
-                                todolist={tl}
-                                tasks={allTodolistTasks}
-                                removeTask={removeTask}
-                                changeFilter={changeFilter}
-                                addTask={addTask}
-                                changeTaskStatus={changeStatus}
-                                removeTodolist={removeTodolist}
-                                changeTaskTitle={changeTaskTitle}
-                                changeTodolistTitle={changeTodolistTitle}
-                                demo={demo}
-                            />
-                        </Paper>
-                    </Grid>
-                })
-            }
-        </Grid>
+                        return <Grid item key={tl.id} style={{width: '30%', minWidth: '300px'}}>
+                            <Paper elevation={5}
+                                   style={{margin: '0 20px 20px 20px', padding: '20px', borderRadius: '10px'}}>
+                                <Todolist
+                                    todolist={tl}
+                                    tasks={allTodolistTasks}
+                                    removeTask={removeTask}
+                                    changeFilter={changeFilter}
+                                    addTask={addTask}
+                                    changeTaskStatus={changeStatus}
+                                    removeTodolist={removeTodolist}
+                                    changeTaskTitle={changeTaskTitle}
+                                    changeTodolistTitle={changeTodolistTitle}
+                                    demo={demo}
+                                />
+                            </Paper>
+                        </Grid>
+                    })
+                }
+            </div>
+        </div>
     </>
 }

@@ -1,26 +1,133 @@
-/*
-.App {
-  padding: 30px;
-  display: flex;
+body {
+    background-color: white;
 }
 
-.App > div {
-  margin-right: 50px;
+.addTodoList {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin: 30px 20px 30px 20px;
+
+}
+
+.titleInput {
+    font-size: 22px;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+
+.todoLists {
+    display: flex;
+    column-gap: 5%;
+    flex-wrap: wrap;
+    margin: auto;
+    flex: 0 0 33.33%;
+}
+
+@media (max-width: 1200px) {
+    .todoLists {
+        justify-content: space-between;
+        flex: 0 0 50%;
+        flex-wrap: wrap;
+    }
+
+    .addTodoList {
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 640px) {
+    .todoLists {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+.isDone > .editableSpan {
+    opacity: 0.5;
 }
 
 .error {
-  border: red 1px solid;
+    width: 80%;
+    border: 2px solid red;
+    outline: none;
+    display: flex;
+    justify-content: space-between;
 }
 
-.error-message {
-  color: red;
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.active-filter {
-  background-color: aquamarine;
+@media (max-width: 1200px) {
+    .container {
+        max-width: 640px;
+    }
 }
 
-.is-done {
-  opacity: 0.5;
+.inputTask {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 }
-*/
+
+.header {
+    display: flex;
+    align-items: center;
+}
+
+.tasks li {
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+
+.tasks li:first-child {
+    margin-top: 0;
+}
+
+.filter {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 20px;
+}
+
+@media (max-width: 1200px) {
+    .filter {
+        flex-direction: column;
+    }
+
+    .filter Button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .filter Button:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.tasks {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.editMode {
+    outline: none;
+    margin-right: 7px;
+    margin-left: 3px;
+}
+
+.editableSpan {
+    word-break: break-word;
+    margin-right: 7px;
+    margin-left: 5px;
+}
