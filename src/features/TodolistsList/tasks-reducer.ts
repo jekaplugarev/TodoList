@@ -1,13 +1,18 @@
-import {AddTodolistActionType, RemoveTodolistActionType, SetTodolistsActionType} from './todolists-reducer'
+import {
+    AddTodolistActionType,
+    ClearDataActionType,
+    RemoveTodolistActionType,
+    SetTodolistsActionType
+} from './todolists-reducer'
 import {TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType} from '../../api/todolists-api'
 import {Dispatch} from 'redux'
-import {AppRootStateType} from '../../app/store'
-import {setAppErrorAC, SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType} from '../../app/app-reducer'
+import {AppRootStateType, AppThunkType} from '../../app/store'
+import {SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType} from '../../app/app-reducer'
 import {handleServerAppError, handleServerNetworkError} from '../../utils/error-utils'
 
 const initialState: TasksStateType = {}
 
-export const tasksReducer = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {
+export const tasksReducer = (state: TasksStateType = initialState, action: TaskActionsType): TasksStateType => {
     switch (action.type) {
         case 'REMOVE-TASK':
             return {...state, [action.todolistId]: state[action.todolistId].filter(t => t.id != action.taskId)}
@@ -34,6 +39,8 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
         }
         case 'SET-TASKS':
             return {...state, [action.todolistId]: action.tasks}
+        case 'CLEAR-DATA':
+            return {}
         default:
             return state
     }
@@ -50,7 +57,7 @@ export const setTasksAC = (tasks: Array<TaskType>, todolistId: string) =>
     ({type: 'SET-TASKS', tasks, todolistId} as const)
 
 // thunks
-export const fetchTasksTC = (todolistId: string) => (dispatch: Dispatch<ActionsType | SetAppStatusActionType>) => {
+export const fetchTasksTC = (todolistId: string) => (dispatch: Dispatch<TaskActionsType | SetAppStatusActionType>) => {
     dispatch(setAppStatusAC('loading'))
     todolistsAPI.getTasks(todolistId)
         .then((res) => {
@@ -59,14 +66,14 @@ export const fetchTasksTC = (todolistId: string) => (dispatch: Dispatch<ActionsT
             dispatch(setAppStatusAC('succeeded'))
         })
 }
-export const removeTaskTC = (taskId: string, todolistId: string) => (dispatch: Dispatch<ActionsType>) => {
+export const removeTaskTC = (taskId: string, todolistId: string) => (dispatch: Dispatch<TaskActionsType>) => {
     todolistsAPI.deleteTask(todolistId, taskId)
         .then(res => {
             const action = removeTaskAC(taskId, todolistId)
             dispatch(action)
         })
 }
-export const addTaskTC = (title: string, todolistId: string) => (dispatch: Dispatch<ActionsType | SetAppErrorActionType | SetAppStatusActionType>) => {
+export const addTaskTC = (title: string, todolistId: string): AppThunkType => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     todolistsAPI.createTask(todolistId, title)
         .then(res => {
@@ -84,7 +91,7 @@ export const addTaskTC = (title: string, todolistId: string) => (dispatch: Dispa
         })
 }
 export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelType, todolistId: string) =>
-    (dispatch: ThunkDispatch, getState: () => AppRootStateType) => {
+    (dispatch: TaskThunkDispatch, getState: () => AppRootStateType) => {
         const state = getState()
         const task = state.tasks[todolistId].find(t => t.id === taskId)
         if (!task) {
@@ -129,12 +136,14 @@ export type UpdateDomainTaskModelType = {
 export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
-type ActionsType =
+export type TaskActionsType =
     | ReturnType<typeof removeTaskAC>
     | ReturnType<typeof addTaskAC>
     | ReturnType<typeof updateTaskAC>
     | AddTodolistActionType
     | RemoveTodolistActionType
     | SetTodolistsActionType
+    | ClearDataActionType
     | ReturnType<typeof setTasksAC>
-type ThunkDispatch = Dispatch<ActionsType | SetAppStatusActionType | SetAppErrorActionType>
+export type TaskThunkDispatch = Dispatch<TaskActionsType | SetAppStatusActionType | SetAppErrorActionType>
+
