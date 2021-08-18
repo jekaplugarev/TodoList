@@ -18,11 +18,7 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import {logoutTC} from '../features/Login/auth-reducer'
 
-type PropsType = {
-    demo?: boolean
-}
-
-export function App({demo = false}: PropsType) {
+export function App() {
     const status = useSelector<AppRootStateType, RequestStatusType>((state) => state.app.status)
     const isInitialized = useSelector<AppRootStateType, boolean>((state) => state.app.isInitialized)
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
@@ -56,7 +52,7 @@ export function App({demo = false}: PropsType) {
             </AppBar>
             <div className="container">
                 <Switch>
-                    <Route exact path={'/'} render={() => <TodolistsList demo={demo}/>}/>
+                    <Route exact path={'/'} render={() => <TodolistsList/>}/>
                     <Route path={'/login'} render={() => <Login/>}/>
                     <Route
                         path={'/404'}

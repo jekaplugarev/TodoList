@@ -43,6 +43,9 @@ body {
         flex-direction: column;
         align-items: center;
     }
+    .addTodoList {
+        margin: 30px 20px 30px 30px;
+    }
 }
 
 .isDone > .editableSpan {
